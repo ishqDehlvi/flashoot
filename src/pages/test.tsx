@@ -1,6 +1,6 @@
 'use client'
 import { motion } from "framer-motion";
-import { Users, Check, ArrowRight, Camera, Clock, Sparkles, DollarSign, Shield, IndianRupee, Download, Quote } from "lucide-react";
+import { Check, ArrowRight,  Sparkles,  IndianRupee, Download, Quote } from "lucide-react";
 import NavHeader from "../components/NavHeader";
 import { Footer } from "../components/Footer";
 import { FloatingNav } from "@/components/FloatingNav";
@@ -8,7 +8,6 @@ import outlookLogo from "../images/Outlook-Logo.png";
 import etLogo from "../images/et.png";
 import htLogo from "../images/ht.png";
 import wallet from "../images/wallet.png";
-import isb from "../../dist/assets/isb.svg";
 import why1 from "../images/why1.png";
 import why2 from "../images/why2.png";
 import why3 from "../images/why3.png";

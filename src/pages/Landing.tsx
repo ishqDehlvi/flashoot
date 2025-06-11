@@ -1,6 +1,6 @@
 'use client'
 import { motion } from "framer-motion";
-import { Users, Check, ArrowRight, Camera, Clock, Sparkles, DollarSign, Shield, IndianRupee, Download, Quote } from "lucide-react";
+import { Check, ArrowRight, Sparkles, IndianRupee, Download, Quote } from "lucide-react";
 import NavHeader from "../components/NavHeader";
 import { Footer } from "../components/Footer";
 import { FloatingNav } from "@/components/FloatingNav";

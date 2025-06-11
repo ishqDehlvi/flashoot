@@ -1,6 +1,6 @@
 import { Play, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Link, useLocation } from 'wouter';
+import { Link } from 'wouter';
 import { Toaster } from 'sonner';
 import NavHeader from './components/NavHeader';
 import { Footer } from './components/Footer';
@@ -12,7 +12,7 @@ import htLogo from './images/ht.png';
 import SEO from "./components/SEO";
 
 function App() {
-  const [, navigate] = useLocation();
+  // const [location] = useLocation();
 
   const structuredData = {
     "@context": "https://schema.org",

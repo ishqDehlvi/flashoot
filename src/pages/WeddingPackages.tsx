@@ -70,7 +70,7 @@ const packages = [
 ];
 
 const HeroSection = () => {
-  const [, navigate] = useLocation();
+  // const [, navigate] = useLocation();
   
   return (
     <div className="relative overflow-hidden  flex items-center">

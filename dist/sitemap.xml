@@ -2,92 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://flashoot.com/</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://flashoot.com/discover</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://flashoot.com/book</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://flashoot.com/journey</loc>
-    <lastmod>2024-04-09</lastmod>
+    <loc>https://flashoot.com/partner</loc>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://flashoot.com/features</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://flashoot.com/pricing</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://flashoot.com/wedding-packages</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://flashoot.com/corporate-packages</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://flashoot.com/one-day-packages</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://flashoot.com/blog</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://flashoot.com/half-day-packages</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://flashoot.com/our-story</loc>
+    <lastmod>2024-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://flashoot.com/press</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://flashoot.com/patent</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://flashoot.com/contact</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://flashoot.com/privacy</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://flashoot.com/terms</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://flashoot.com/cookies</loc>
-    <lastmod>2024-04-09</lastmod>
+    <lastmod>2024-04-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.3</priority>
   </url>
 </urlset> 

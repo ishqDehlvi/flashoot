@@ -1,10 +1,12 @@
 import {
   Home,
+
+
   Sparkles,
-  IndianRupee,
+
+
   Compass,
   History,
-  BookText,
   Instagram,
 } from "lucide-react";
 import { FloatingDock } from "./ui/floating-dock";

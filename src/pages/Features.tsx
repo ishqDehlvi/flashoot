@@ -18,7 +18,6 @@ import { Footer } from "../components/Footer";
 import { FloatingNav } from "@/components/FloatingNav";
 import { ContainerScrollDemo } from "@/components/ui/container-scroll-demo";
 import { SparklesCore } from "@/components/ui/aceternity";
-import { NewsletterSection } from "@/components/newsletter-section";
 import wallet from "../images/wallet.png";
 import scheduling from "../images/scheduling.png";
 import verifiedPartner from "../images/verified_prtner.png";
@@ -654,10 +653,6 @@ export default function Features() {
             </div>
           </div>
         </section>
-{/* 
-        <div className="relative">
-          <NewsletterSection />
-        </div> */}
 
         <div className="border-t border-white/10 backdrop-blur-sm">
           <Footer />

@@ -8,9 +8,8 @@ import {
   Clock,
   Sparkles,
   Phone,
-  MapPin,
+
   Calendar,
-  Clock as ClockIcon,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
@@ -274,34 +273,6 @@ const EnquiryForm = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const geocoder = new google.maps.Geocoder();
-          const latlng = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-
-          geocoder.geocode({ location: latlng }, (results, status) => {
-            if (status === "OK" && results?.[0]?.formatted_address) {
-              setFormData((prev) => ({
-                ...prev,
-                location: results[0].formatted_address || "",
-              }));
-            }
-          });
-        },
-        () => {
-          toast.error("Unable to retrieve your location");
-        },
-      );
-    } else {
-      toast.error("Geolocation is not supported by your browser");
-    }
   };
 
   return (

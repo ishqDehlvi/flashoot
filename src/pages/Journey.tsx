@@ -7,7 +7,7 @@ import { FloatingNav } from '@/components/FloatingNav';
 import karthik from '../images/karthik.jpg';
 import manikanta from '../images/manikanta.jpg';
 import shreyak from '../images/shreyak.jpg';
-import jhanavi from '../images/jhanavi.jpg';
+// import jhanavi from '../images/jhanavi.jpg';
 // import raghu from '../images/raghu.jpg';
 // import aman from '../images/aman.jpg';
 // import dinesh from '../images/dinesh.jpg';
@@ -838,38 +838,38 @@ const JourneySection = () => {
 // };
 
 // Features data
-const features = [
-  {
-    image: karthik, // Replace with the correct image import for each feature
-    title: 'Trained & Certified Reel Makers',
-    description: 'Each Partner clears 6 filters to get their certification.'
-  },
-  {
-    image: shreyak, // Replace with the correct image import for each feature
-    title: 'Easy Booking',
-    description: 'Stop struggling with complex booking procedure.'
-  },
-  {
-    image: manikanta, // Replace with the correct image import for each feature
-    title: 'Unbelievable Pricing:',
-    description: 'Each Reel starts 1999/-'
-  },
-  {
-    image: 'https://cdn-icons-png.flaticon.com/512/3064/3064197.png', // Use a lock icon or imported image
-    title: 'Safe & Secure',
-    description: 'You & Your data is safe and secured.'
-  },
-  {
-    image: 'https://cdn-icons-png.flaticon.com/512/3064/3064155.png', // Use a fast delivery icon or imported image
-    title: 'Instant Reels, Instant Editing:',
-    description: 'No waiting days or weeks for your videos. Post it the same day.'
-  },
-  {
-    image: jhanavi, // Replace with the correct image import for each feature
-    title: 'Women Safety',
-    description: 'A woman can book a female Reel maker.'
-  },
-];
+// const features = [
+//   {
+//     image: karthik, // Replace with the correct image import for each feature
+//     title: 'Trained & Certified Reel Makers',
+//     description: 'Each Partner clears 6 filters to get their certification.'
+//   },
+//   {
+//     image: shreyak, // Replace with the correct image import for each feature
+//     title: 'Easy Booking',
+//     description: 'Stop struggling with complex booking procedure.'
+//   },
+//   {
+//     image: manikanta, // Replace with the correct image import for each feature
+//     title: 'Unbelievable Pricing:',
+//     description: 'Each Reel starts 1999/-'
+//   },
+//   {
+//     image: 'https://cdn-icons-png.flaticon.com/512/3064/3064197.png', // Use a lock icon or imported image
+//     title: 'Safe & Secure',
+//     description: 'You & Your data is safe and secured.'
+//   },
+//   {
+//     image: 'https://cdn-icons-png.flaticon.com/512/3064/3064155.png', // Use a fast delivery icon or imported image
+//     title: 'Instant Reels, Instant Editing:',
+//     description: 'No waiting days or weeks for your videos. Post it the same day.'
+//   },
+//   {
+//     image: jhanavi, // Replace with the correct image import for each feature
+//     title: 'Women Safety',
+//     description: 'A woman can book a female Reel maker.'
+//   },
+// ];
 
 
 
