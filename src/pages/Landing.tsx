@@ -156,17 +156,17 @@ export default function Test() {
   const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
 
   const [currentFeaturePage, setCurrentFeaturePage] = useState(1);
-  const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
-  const totalFeaturePages = Math.ceil(features.length / featuresPerPage);
+  // const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
+
 
   // Add new state for infinite scroll
-  const [scrollPosition, setScrollPosition] = useState(0);
+  // const [ setScrollPosition] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollIntervalRef = useRef<NodeJS.Timeout>();
   const pauseTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const [testimonialScrollPosition, setTestimonialScrollPosition] = useState(0);
+  // const [testimonialScrollPosition, setTestimonialScrollPosition] = useState(0);
   const [isTestimonialPaused, setIsTestimonialPaused] = useState(false);
   const testimonialScrollRef = useRef<HTMLDivElement>(null);
   const testimonialAutoScrollIntervalRef = useRef<NodeJS.Timeout>();
@@ -301,7 +301,7 @@ export default function Test() {
         container.scrollTo({ left: 0, behavior: 'auto' });
       }
       
-      setScrollPosition(scrollLeft);
+      // setScrollPosition(scrollLeft);  
     };
 
     container.addEventListener('scroll', handleScroll);
@@ -383,11 +383,11 @@ export default function Test() {
     return testimonials.slice(startIndex, startIndex + testimonialsPerPage);
   };
 
-  const getCurrentFeatures = () => {
-    const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
-    const startIndex = (currentFeaturePage - 1) * featuresPerPage;
-    return features.slice(startIndex, startIndex + featuresPerPage);
-  };
+  // const getCurrentFeatures = () => {
+  //   const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
+  //   const startIndex = (currentFeaturePage - 1) * featuresPerPage;
+  //   return features.slice(startIndex, startIndex + featuresPerPage);
+  // };
 
   return (
     <div className="min-h-screen bg-background relative">
