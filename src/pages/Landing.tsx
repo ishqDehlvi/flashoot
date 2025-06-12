@@ -23,7 +23,7 @@ import Sharan from "../images/Sharan.jpg";
 import Shreenija from "../images/Shreenija.jpg";
 import Sindhura from "../images/Sindhura.jpg";
 import Swetha from "../images/Swetha.jpg";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ContainerScrollDemo } from "@/components/ui/container-scroll-demo";
 import FlashootFeaturesCarousel from "@/components/features";
 const features = [
@@ -58,6 +58,9 @@ const features = [
     icon: why6,
   }
 ];
+
+// Create an infinite scroll array by duplicating features
+const infiniteFeatures = [...features, ...features, ...features];
 
 const testimonials = [
   {
@@ -156,6 +159,19 @@ export default function Test() {
   const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
   const totalFeaturePages = Math.ceil(features.length / featuresPerPage);
 
+  // Add new state for infinite scroll
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const autoScrollIntervalRef = useRef<NodeJS.Timeout>();
+  const pauseTimeoutRef = useRef<NodeJS.Timeout>();
+
+  const [testimonialScrollPosition, setTestimonialScrollPosition] = useState(0);
+  const [isTestimonialPaused, setIsTestimonialPaused] = useState(false);
+  const testimonialScrollRef = useRef<HTMLDivElement>(null);
+  const testimonialAutoScrollIntervalRef = useRef<NodeJS.Timeout>();
+  const testimonialPauseTimeoutRef = useRef<NodeJS.Timeout>();
+
   useEffect(() => {
     const handleResize = () => {
       const newTestimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
@@ -171,11 +187,13 @@ export default function Test() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentPage((prev) => {
-        const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
-        const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
-        return prev === totalPages ? 1 : prev + 1;
-      });
+      if (window.innerWidth >= 768) { // Only auto-scroll on desktop
+        setCurrentPage((prev) => {
+          const testimonialsPerPage = 3; // Desktop always shows 3
+          const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
+          return prev === totalPages ? 1 : prev + 1;
+        });
+      }
     }, 5000);
 
     return () => clearInterval(timer);
@@ -193,6 +211,171 @@ export default function Test() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [currentFeaturePage]);
+
+  // Add auto-scroll functionality
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const startAutoScroll = () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+      }
+
+      autoScrollIntervalRef.current = setInterval(() => {
+        if (!isPaused && container) {
+          // Calculate scroll amount based on card width + gap
+          const cardWidth = 280; // w-[280px]
+          const gap = 16; // gap-4 = 16px
+          const scrollAmount = cardWidth + gap;
+          
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          const currentScroll = container.scrollLeft;
+          
+          // If we're near the end, reset to start
+          if (currentScroll >= maxScroll - scrollAmount) {
+            container.scrollTo({ 
+              left: 0, 
+              behavior: 'smooth' 
+            });
+          } else {
+            // Scroll to next card
+            container.scrollTo({ 
+              left: currentScroll + scrollAmount, 
+              behavior: 'smooth' 
+            });
+          }
+        }
+      }, 3000);
+    };
+
+    const handleUserInteraction = () => {
+      setIsPaused(true);
+      
+      // Clear any existing pause timeout
+      if (pauseTimeoutRef.current) {
+        clearTimeout(pauseTimeoutRef.current);
+      }
+      
+      // Resume auto-scroll after 5 seconds of inactivity
+      pauseTimeoutRef.current = setTimeout(() => {
+        setIsPaused(false);
+        // Restart auto-scroll when resuming
+        startAutoScroll();
+      }, 5000);
+    };
+
+    // Start auto-scroll
+    startAutoScroll();
+
+    // Add event listeners for user interaction
+    container.addEventListener('touchstart', handleUserInteraction);
+    container.addEventListener('mousedown', handleUserInteraction);
+    container.addEventListener('scroll', handleUserInteraction);
+
+    // Cleanup
+    return () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+      }
+      if (pauseTimeoutRef.current) {
+        clearTimeout(pauseTimeoutRef.current);
+      }
+      container.removeEventListener('touchstart', handleUserInteraction);
+      container.removeEventListener('mousedown', handleUserInteraction);
+      container.removeEventListener('scroll', handleUserInteraction);
+    };
+  }, [isPaused]);
+
+  // Add scroll handler
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      
+      // Reset scroll position when reaching the end
+      if (scrollLeft >= maxScroll - 100) {
+        container.scrollTo({ left: 0, behavior: 'auto' });
+      }
+      
+      setScrollPosition(scrollLeft);
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Create infinite testimonials array
+  const infiniteTestimonials = [...testimonials, ...testimonials, ...testimonials];
+
+  // Add testimonial auto-scroll functionality
+  useEffect(() => {
+    const container = testimonialScrollRef.current;
+    if (!container) return;
+
+    const startTestimonialAutoScroll = () => {
+      if (testimonialAutoScrollIntervalRef.current) {
+        clearInterval(testimonialAutoScrollIntervalRef.current);
+      }
+
+      testimonialAutoScrollIntervalRef.current = setInterval(() => {
+        if (!isTestimonialPaused && container) {
+          const cardWidth = container.querySelector('.testimonial-card')?.clientWidth || 300;
+          const gap = 24; // gap-6 = 24px
+          const scrollAmount = cardWidth + gap;
+          
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          const currentScroll = container.scrollLeft;
+          
+          if (currentScroll >= maxScroll - scrollAmount) {
+            container.scrollTo({ 
+              left: 0, 
+              behavior: 'smooth' 
+            });
+          } else {
+            container.scrollTo({ 
+              left: currentScroll + scrollAmount, 
+              behavior: 'smooth' 
+            });
+          }
+        }
+      }, 3000);
+    };
+
+    const handleTestimonialInteraction = () => {
+      setIsTestimonialPaused(true);
+      
+      if (testimonialPauseTimeoutRef.current) {
+        clearTimeout(testimonialPauseTimeoutRef.current);
+      }
+      
+      testimonialPauseTimeoutRef.current = setTimeout(() => {
+        setIsTestimonialPaused(false);
+        startTestimonialAutoScroll();
+      }, 5000);
+    };
+
+    startTestimonialAutoScroll();
+
+    container.addEventListener('touchstart', handleTestimonialInteraction);
+    container.addEventListener('mousedown', handleTestimonialInteraction);
+    container.addEventListener('scroll', handleTestimonialInteraction);
+
+    return () => {
+      if (testimonialAutoScrollIntervalRef.current) {
+        clearInterval(testimonialAutoScrollIntervalRef.current);
+      }
+      if (testimonialPauseTimeoutRef.current) {
+        clearTimeout(testimonialPauseTimeoutRef.current);
+      }
+      container.removeEventListener('touchstart', handleTestimonialInteraction);
+      container.removeEventListener('mousedown', handleTestimonialInteraction);
+      container.removeEventListener('scroll', handleTestimonialInteraction);
+    };
+  }, [isTestimonialPaused]);
 
   const getCurrentTestimonials = () => {
     const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
@@ -258,7 +441,7 @@ export default function Test() {
                 </a>
               </div>
               {/* Client Stats Row */}
-              <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-10 md:mt-12 mb-4">
+              <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-[80px] md:mt-12 mb-4">
                 <div className="text-center">
                   <div className="text-2xl md:text-3xl font-bold text-primary">50,000+</div>
                   <div className="text-sm md:text-base text-gray-400">Reels Delivered</div>
@@ -275,7 +458,7 @@ export default function Test() {
                 </div>
               </div>
               {/* Press Logos Row */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 mt-6 md:mt-8">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 mt-14 md:mt-8">
                 <span className="text-xs sm:text-sm md:text-base font-medium text-gray-400 uppercase tracking-wider">
                   Featured In
                 </span>
@@ -316,7 +499,7 @@ export default function Test() {
         </section>
 
 
-        <section className="py-12 md:py-20 relative">
+        <section className="py-16 md:py-20 relative">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -337,23 +520,22 @@ export default function Test() {
               </p> */}
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {getCurrentFeatures().map((feature, index) => (
+            {/* Desktop Grid View */}
+            <div className="hidden md:grid grid-cols-2 gap-8">
+              {features.map((feature, index) => (
                 <motion.div
-                  key={feature.title}
+                  key={`desktop-${feature.title}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                   className="flex flex-col-reverse sm:flex-row items-center gap-6 bg-white/5 rounded-2xl p-4 md:p-6 border border-white/10 hover:border-primary/30 transition-all duration-300 group"
                 >
-                  {/* Image Section */}
                   <div className="flex-shrink-0 item-end mb-4 sm:mb-0">
-                    <div className="w-64 h-28 md:w-[190px] md:h-36  flex items-center justify-center">
+                    <div className="w-64 h-28 md:w-[190px] md:h-36 flex items-center justify-center">
                       <img src={feature.icon} alt={feature.title} className="w-[175px] h-[175px] md:w-[600px] md:h-[600px] object-contain" />
                     </div>
                   </div>
-                  {/* Text Section */}
                   <div className="flex-1 text-left">
                     <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
                     <p className="text-sm md:text-base text-gray-400 group-hover:text-gray-300 transition-colors duration-300 mb-[10px]">{feature.description}</p>
@@ -362,21 +544,56 @@ export default function Test() {
               ))}
             </div>
 
-            {/* Feature Pagination Dots - Only visible on mobile */}
-            <div className="flex justify-center items-center gap-2 mt-8 md:hidden">
-              {Array.from({ length: totalFeaturePages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentFeaturePage(page)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    page === currentFeaturePage
-                      ? "bg-primary w-8"
-                      : "bg-gray-600 hover:bg-primary/50"
-                  }`}
-                  aria-label={`Go to feature page ${page}`}
-                />
+            {/* Mobile Scrollable View */}
+            <div 
+              ref={scrollContainerRef}
+              className="md:hidden flex overflow-x-auto gap-4  snap-x snap-mandatory scrollbar-hide"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch',
+              }}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {infiniteFeatures.map((feature, index) => (
+                <motion.div
+                  key={`mobile-${feature.title}-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex-shrink-0 w-[280px] mt-2 snap-center bg-white/5 rounded-2xl border border-white/10 hover:border-primary/30 transition-all duration-300 group overflow-hidden"
+                >
+                  {/* Text Section with padding */}
+                  <div className="p-4">
+                    <div className="text-center w-full">
+                      <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
+                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">{feature.description}</p>
+                    </div>
+                  </div>
+                  {/* Image Section - No padding, extends to border */}
+                  <div className="w-full h-64 flex items-center justify-center">
+                    <img 
+                      src={feature.icon} 
+                      alt={feature.title} 
+                      className="w-[600px] h-[600px] object-contain transform group-hover:scale-105 transition-transform duration-300" 
+                    />
+                  </div>
+                </motion.div>
               ))}
             </div>
+
+            {/* Add custom scrollbar styles */}
+            <style jsx global>{`
+              .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+              }
+              .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+              }
+            `}</style>
           </div>
         </section>
 
@@ -423,6 +640,10 @@ export default function Test() {
                     <div className="flex items-center gap-3 group">
                       <Check className="w-5 h-5 text-primary flex-shrink-0" />
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Fast Delivery (10 mins post shoot)</span>
+                    </div>                    
+                    <div className="flex items-center gap-3 group">
+                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Trained and Certified Reel Maker</span>
                     </div>
                   </div>
                 </div>
@@ -470,6 +691,10 @@ export default function Test() {
                     <div className="flex items-center gap-3 group">
                       <Check className="w-5 h-5 text-primary flex-shrink-0" />
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Fast Delivery (10 mins post shoot)</span>
+                    </div>                    
+                    <div className="flex items-center gap-3 group">
+                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Trained and Certified Reel Maker</span>
                     </div>
                   </div>
                 </div>
@@ -643,10 +868,11 @@ export default function Test() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Desktop Grid View with Auto-scroll */}
+            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6">
               {getCurrentTestimonials().map((testimonial, index) => (
                 <motion.div
-                  key={`${testimonial.name}-${currentPage}-${index}`}
+                  key={`desktop-${testimonial.name}-${currentPage}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
@@ -681,7 +907,8 @@ export default function Test() {
               ))}
             </div>
 
-            <div className="flex justify-center items-center gap-2 mt-12">
+            {/* Desktop Pagination Dots */}
+            <div className="hidden md:flex justify-center items-center gap-2 mt-12">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
@@ -695,6 +922,55 @@ export default function Test() {
                 />
               ))}
             </div>
+
+            {/* Mobile Scrollable View */}
+            <div 
+              ref={testimonialScrollRef}
+              className="md:hidden flex overflow-x-auto  gap-6 snap-x snap-mandatory scrollbar-hide"
+              style={{
+                scrollbarWidth: 'none' as const,
+                msOverflowStyle: 'none' as const,
+                WebkitOverflowScrolling: 'touch' as const,
+              }}
+              onMouseEnter={() => setIsTestimonialPaused(true)}
+              onMouseLeave={() => setIsTestimonialPaused(false)}
+            >
+              {infiniteTestimonials.map((testimonial, index) => (
+                <motion.div
+                  key={`mobile-${testimonial.name}-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="testimonial-card mt-4 flex-shrink-0 w-[280px] snap-center relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col"
+                >
+                  <div className="absolute -top-4 left-6">
+                    <div className="p-2 rounded-lg bg-primary/20 backdrop-blur-sm border border-primary/20">
+                      <Quote className="w-5 h-5 text-primary" />
+                    </div>
+                  </div>
+
+                  <div className="pt-4 h-full flex flex-col justify-between">
+                    <p className="text-base text-gray-300 mb-6">
+                      {testimonial.quote}
+                    </p>
+
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div>
+                        <h4 className="text-lg font-semibold">
+                          {testimonial.name}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -706,8 +982,8 @@ export default function Test() {
               <div className="relative z-10">
                 <div className="space-y-6 md:space-y-8 max-w-xl">
                   <div className="inline-flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-gradient-to-r from-primary/20 to-primary/5 border border-primary/20 backdrop-blur-xl shadow-[0_0_15px_rgba(255,0,0,0.1)] hover:shadow-[0_0_20px_rgba(255,0,0,0.2)] transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2M5 9h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z" /></svg>
-                    <span className="text-xs md:text-sm font-medium bg-gradient-to-r from-white to-white/80 text-transparent bg-clip-text">Secure Payments</span>
+                    <Download className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+                    <span className="text-xs md:text-sm font-medium bg-gradient-to-r from-white to-white/80 text-transparent bg-clip-text">Download Now</span>
                   </div>
                   <div>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-[1.1] tracking-tight">

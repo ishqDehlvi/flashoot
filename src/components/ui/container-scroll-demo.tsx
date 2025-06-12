@@ -17,7 +17,7 @@ export function ContainerScrollDemo() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <h2 className="text-sm md:text-base font-semibold text-primary/80 uppercase tracking-wider drop-shadow-md">
+              <h2 className="text-xs md:text-base font-semibold text-primary/80 uppercase tracking-wider drop-shadow-md">
                   WORLD'S FIRST QUICK CONTENT SERVICE
                </h2>
               <h1 className="text-xl md:text-3xl font-semibold text-white">
