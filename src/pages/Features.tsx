@@ -2,10 +2,7 @@ import { motion } from "framer-motion";
 import {
   Clock,
   Calendar,
-  CreditCard,
-  Globe,
   Users,
-  Camera,
   Sparkles,
   Zap,
   Wallet,
@@ -32,54 +29,38 @@ import Sindhura from "../images/Sindhura.jpg";
 import Swetha from "../images/Swetha.jpg";
 import { useState, useEffect } from "react";
 
+// Import feature images
+// import downloadContent from "../images/Features/D.png";
+// import femaleReelMaker from "../images/Features/Female reel-maker Opt.png";
+// import instantBooking from "../images/Features/Instant booking conformation.png";
+// import liveTracking from "../images/Features/Live tracking.png";
+// import pickPartner from "../images/Features/Pick Partner.png";
+
 const features = [
   {
-    title: "Book Professional Reel-Makers Instantly",
-    description:
-      "Hire from a network of 250+ expert reel-makers who specialize in short-format content, available at your fingertips via a seamless booking system.",
-    icon: Users,
-    image:
-      "https://images.unsplash.com/photo-1533750516457-a7f992034fec?q=80&w=2000&auto=format&fit=crop",
+    title: "Instant Booking Confirmation",
+    description: "Get immediate confirmation for your bookings with our streamlined process",
+    image: Shireen,
   },
   {
-    title: "High-Quality Content Shot on Latest iPhones",
-    description:
-      "Every shoot is done using the latest iPhones, ensuring cinematic-quality short videos with top-tier clarity and stabilization.",
-    icon: Camera,
-    image:
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop",
+    title: "Live Tracking",
+    description: "Track your reel-maker's location in real-time for better coordination",
+    image: Shireen,
   },
   {
-    title: "Hassle-Free Booking & Scheduling",
-    description:
-      "Users can easily schedule shoots, select locations, and get confirmation in just a few clicks—no complicated processes!",
-    icon: Calendar,
-    image:
-      "https://images.unsplash.com/photo-1515847049296-a281d6401047?q=80&w=2000&auto=format&fit=crop",
+    title: "Pick Your Partner",
+    description: "Choose from our curated list of professional reel-makers",
+    image: Shireen,
   },
   {
-    title: "Fast Content Delivery",
-    description:
-      "Get professionally shot and edited reels delivered quickly, perfect for social media marketing, influencer content, and brand promotions.",
-    icon: Clock,
-    image:
-      "https://images.unsplash.com/photo-1516321165247-4aa89a48be28?q=80&w=2000&auto=format&fit=crop",
+    title: "Download Content",
+    description: "Access and download your content instantly after completion",
+    image: Shireen,
   },
   {
-    title: "Secure Payments & Transparent Pricing",
-    description:
-      "No hidden charges! Clients get upfront pricing, secure payment options, and a seamless checkout experience.",
-    icon: CreditCard,
-    image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2000&auto=format&fit=crop",
-  },
-  {
-    title: "Available on Web & Mobile",
-    description:
-      "Whether on a smartphone or desktop, Flashoot works everywhere, making it convenient for users to book and manage their shoots anytime, anywhere.",
-    icon: Globe,
-    image:
-      "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2000&auto=format&fit=crop",
+    title: "Expert Reel-Makers",
+    description: "Work with skilled professionals who understand your vision",
+    image: Shireen,
   },
 ];
 
@@ -174,7 +155,6 @@ export default function Features() {
       {/* Content */}
       <div className="relative">
         <NavHeader />
-
         {/* Hero section - restore original height but add negative margin to next section */}
         <section className="min-h-screen flex items-center justify-center relative">
           <ContainerScrollDemo />
@@ -596,7 +576,7 @@ export default function Features() {
             </div>
 
             {/* Features Grid */}
-            <div className="grid lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
@@ -606,45 +586,36 @@ export default function Features() {
                   transition={{ delay: index * 0.1 }}
                   className="group relative"
                 >
-                  {/* Card Container */}
                   <div className="relative h-full rounded-[2rem] p-1 transition-all duration-300">
                     {/* Gradient Border */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/0 to-primary/20 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
                     {/* Main Card */}
-                    <div className="relative h-full rounded-[1.9rem] bg-black/40 backdrop-blur-xl border border-white/10 p-8 overflow-hidden transition-all duration-500 group-hover:border-primary/20 group-hover:shadow-[0_0_30px_rgba(255,0,0,0.1)]">
-                      {/* Floating Elements Background */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                        <div className="absolute top-0 left-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2" />
-                        <div className="absolute bottom-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl transform translate-x-1/2 translate-y-1/2" />
-                      </div>
-
-                      {/* Icon */}
-                      <div className="relative mb-8 w-fit">
-                        <div className="absolute inset-0 bg-primary/20 rounded-xl blur-lg transform group-hover:scale-125 transition-transform duration-700" />
-                        <div className="relative p-4 rounded-xl bg-gradient-to-br from-white/10 via-white/5 to-transparent border border-white/10 backdrop-blur-xl group-hover:border-primary/20 transition-colors duration-500">
-                          <feature.icon className="w-8 h-8 text-primary" />
-                        </div>
+                    <div className="relative h-full rounded-[1.9rem] bg-black/40 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500 group-hover:border-primary/20 group-hover:shadow-[0_0_30px_rgba(255,0,0,0.1)]">
+                      {/* Image Container */}
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <motion.img
+                          src={feature.image}
+                          alt={feature.title}
+                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                       </div>
 
                       {/* Content */}
-                      <div className="relative space-y-4">
-                        <h3 className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-2xl font-bold text-white mb-2">
                           {feature.title}
                         </h3>
-                        <p className="text-gray-400 leading-relaxed">
+                        <p className="text-gray-300">
                           {feature.description}
                         </p>
                       </div>
 
-                      {/* Decorative Corner Lines */}
-                      <div className="absolute top-0 left-0 w-20 h-20">
-                        <div className="absolute top-[1px] left-[1px] w-8 h-[1px] bg-gradient-to-r from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="absolute top-[1px] left-[1px] h-8 w-[1px] bg-gradient-to-b from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      </div>
-                      <div className="absolute bottom-0 right-0 w-20 h-20">
-                        <div className="absolute bottom-[1px] right-[1px] w-8 h-[1px] bg-gradient-to-l from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="absolute bottom-[1px] right-[1px] h-8 w-[1px] bg-gradient-to-t from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      {/* Hover Effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="absolute top-0 left-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2" />
+                        <div className="absolute bottom-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl transform translate-x-1/2 translate-y-1/2" />
                       </div>
                     </div>
                   </div>
@@ -653,6 +624,8 @@ export default function Features() {
             </div>
           </div>
         </section>
+
+
 
         <div className="border-t border-white/10 backdrop-blur-sm">
           <Footer />

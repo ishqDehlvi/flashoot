@@ -8,7 +8,7 @@ import outlookLogo from "../images/Outlook-Logo.png";
 import etLogo from "../images/et.png";
 import htLogo from "../images/ht.png";
 import wallet from "../images/wallet.png";
-import isb from "../../dist/assets/isb.svg";
+import isb from "../images/isb.svg";
 import why1 from "../images/why1.png";
 import why2 from "../images/why2.png";
 import why3 from "../images/why3.png";
@@ -25,6 +25,7 @@ import Shreenija from "../images/Shreenija.jpg";
 import Sindhura from "../images/Sindhura.jpg";
 import Swetha from "../images/Swetha.jpg";
 import { useState, useEffect } from "react";
+import FlashootFeaturesCarousel from "@/components/features";
 const features = [
   {
     title: "Trained & Certified Reel Makers",
@@ -437,6 +438,10 @@ export default function Landing() {
             </div>
           </div>
         </section>
+
+
+
+        <FlashootFeaturesCarousel />  
 
        
 

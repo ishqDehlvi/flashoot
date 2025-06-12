@@ -1,10 +1,5 @@
 import {
   Home,
-
-
-  Sparkles,
-
-
   Compass,
   History,
   Instagram,
@@ -26,11 +21,11 @@ export const FloatingNav = () => {
       icon: <Compass className="h-full w-full" />,
       href: "/discover",
     },
-    {
-      title: "Features",
-      icon: <Sparkles className="h-full w-full" />,
-      href: "/features",
-    },
+    // {
+    //   title: "Features",
+    //   icon: <Sparkles className="h-full w-full" />,
+    //   href: "/features",
+    // },
     // {
     //   title: "Our Story",
     //   icon: <BookText className="h-full w-full" />,
@@ -80,8 +75,8 @@ export const FloatingNav = () => {
   return (
     <FloatingDock
       items={links}
-      desktopClassName="fixed left-8 top-1/2 -translate-y-1/2 z-50"
-      mobileClassName="fixed left-4 top-1/2 -translate-y-1/2 z-50"
+      desktopClassName="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+      mobileClassName="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl"
     />
   );
 };

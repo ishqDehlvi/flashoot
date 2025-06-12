@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Smartphone, ChevronRight, LogOut, Settings, UserIcon, Menu, X, Home, Sparkles, Newspaper, Lightbulb, DollarSign, Compass, History } from "lucide-react";
+import { Smartphone, ChevronRight, LogOut, Settings, UserIcon, Menu, X, Home, Newspaper, Lightbulb, DollarSign, Compass, History } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useQuery } from "@tanstack/react-query";
 import type { User } from "@/shared/schema";
@@ -20,11 +20,11 @@ const navigationItems = [
     icon: Compass,
     href: "/discover"
   },
-  {
-    title: "Features",
-    icon: Sparkles,
-    href: "/features"
-  },
+  // {
+  //   title: "Features",
+  //   icon: Sparkles,
+  //   href: "/features"
+  // },
   {
     title: "Our Journey",
     icon: History,

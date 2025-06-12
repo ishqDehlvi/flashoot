@@ -7,8 +7,14 @@ export function Footer() {
     <footer className="border-t border-white/5 bg-black/40 backdrop-blur-sm">
       <div className="container mx-auto px-6 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+          {/* Certifications - Will appear first on mobile */}
+          <div className="flex justify-center md:justify-end items-center gap-6 order-first md:order-last">
+            <img src={gdpr} alt="GDPR Compliant" className="h-24 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+            <img src={iso} alt="ISO Certified" className="h-24 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+          </div>
+
           {/* Company Info */}
-          <div className="text-sm text-gray-400 space-y-2">
+          <div className="text-sm text-gray-400 space-y-2 order-2">
             <p>© 2025 Flashoot</p>
             <p>A product of{' '}
               <a 
@@ -23,7 +29,7 @@ export function Footer() {
           </div>
 
           {/* Navigation Links */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center order-3">
             <Link href="/press">
               <span className="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer block">
                 Press & Blog
@@ -54,12 +60,6 @@ export function Footer() {
                 Contact
               </span>
             </Link>
-          </div>
-
-          {/* Certifications */}
-          <div className="flex justify-center md:justify-end items-center gap-6">
-            <img src={gdpr} alt="GDPR Compliant" className="h-24 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-            <img src={iso} alt="ISO Certified" className="h-24 w-auto opacity-80 hover:opacity-100 transition-opacity" />
           </div>
         </div>
       </div>

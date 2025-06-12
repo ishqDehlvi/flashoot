@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { SparklesCore } from "@/components/ui/aceternity";
 import webApplication from "@/images/web_application.png";
-import isb from "../../../dist/assets/isb.svg";
+import isb from "../../images/isb.svg";
 
 export function ContainerScrollDemo() {
   return (
@@ -17,16 +17,19 @@ export function ContainerScrollDemo() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <h1 className="text-3xl font-semibold text-white">
+              <h2 className="text-sm md:text-base font-semibold text-primary/80 uppercase tracking-wider drop-shadow-md">
+                  WORLD'S FIRST QUICK CONTENT SERVICE
+               </h2>
+              <h1 className="text-xl md:text-3xl font-semibold text-white">
                 We Shoot • Edit • Deliver Reels in<br />
-                <span className="text-4xl md:text-[8rem] font-bold mt-1 leading-none">
+                <span className="text-6xl md:text-[8rem] font-bold mt-1 leading-none">
                   <motion.span
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="gradient-text inline-block"
                   >
-                    10 Minutes<sup className="text-[2rem] md:text-[3rem] gradient-text ml-0  top-[-8px] md:top-[-45px] md:top-[-50px] relative">*</sup>
+                    10 Minutes<sup className="text-[2rem] md:text-[3rem] gradient-text ml-0  top-[-13px] md:top-[-45px] md:top-[-50px] relative">*</sup>
                   </motion.span>
                 </span>
               </h1>
@@ -76,7 +79,7 @@ export function ContainerScrollDemo() {
         </motion.div>
 
       </ContainerScroll>
-      <div className="flex justify-center gap-2 -mt-[210px]">
+      <div className="flex justify-center gap-2 -mt-[260px] md:-mt-[210px]">
                   <span className="inline-block bg-slate-700/50 text-gray-300 text-sm sm:text-base font-medium pl-2 pr-3 py-1.5 rounded-lg border border-slate-600/70 shadow-sm">
                     Shot on  iPhone
                   </span>

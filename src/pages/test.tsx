@@ -25,6 +25,7 @@ import Sindhura from "../images/Sindhura.jpg";
 import Swetha from "../images/Swetha.jpg";
 import { useState, useEffect } from "react";
 import { ContainerScrollDemo } from "@/components/ui/container-scroll-demo";
+import FlashootFeaturesCarousel from "@/components/features";
 const features = [
   {
     title: "Trained & Certified Reel Makers",
@@ -148,20 +149,61 @@ const packages = [
 export default function Test() {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const testimonialsPerPage = 3;
+  const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
   const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
+
+  const [currentFeaturePage, setCurrentFeaturePage] = useState(1);
+  const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
+  const totalFeaturePages = Math.ceil(features.length / featuresPerPage);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newTestimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
+      const newTotalPages = Math.ceil(testimonials.length / newTestimonialsPerPage);
+      if (currentPage > newTotalPages) {
+        setCurrentPage(1);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [currentPage]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentPage((prev) => (prev === totalPages ? 1 : prev + 1));
+      setCurrentPage((prev) => {
+        const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
+        const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
+        return prev === totalPages ? 1 : prev + 1;
+      });
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [totalPages]);
+  }, [testimonials.length]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newFeaturesPerPage = window.innerWidth < 768 ? 1 : 6;
+      const newTotalPages = Math.ceil(features.length / newFeaturesPerPage);
+      if (currentFeaturePage > newTotalPages) {
+        setCurrentFeaturePage(1);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [currentFeaturePage]);
 
   const getCurrentTestimonials = () => {
+    const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
     const startIndex = (currentPage - 1) * testimonialsPerPage;
     return testimonials.slice(startIndex, startIndex + testimonialsPerPage);
+  };
+
+  const getCurrentFeatures = () => {
+    const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
+    const startIndex = (currentFeaturePage - 1) * featuresPerPage;
+    return features.slice(startIndex, startIndex + featuresPerPage);
   };
 
   return (
@@ -287,8 +329,8 @@ export default function Test() {
                 <span className="text-xs md:text-sm font-medium text-white">Why Choose Us</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                Features That Make Us{" "}
-                <span className="gradient-text">Stand Out</span>
+                Not Just Instant {" "}
+                <span className="gradient-text">Delivery, But..</span>
               </h2>
               {/* <p className="text-base md:text-lg text-gray-300/90 max-w-2xl mx-auto px-4 sm:px-0">
                 Experience the next generation of content creation with our innovative platform
@@ -296,7 +338,7 @@ export default function Test() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {features.map((feature, index) => (
+              {getCurrentFeatures().map((feature, index) => (
                 <motion.div
                   key={feature.title}
                   initial={{ opacity: 0, y: 20 }}
@@ -317,6 +359,22 @@ export default function Test() {
                     <p className="text-sm md:text-base text-gray-400 group-hover:text-gray-300 transition-colors duration-300 mb-[10px]">{feature.description}</p>
                   </div>
                 </motion.div>
+              ))}
+            </div>
+
+            {/* Feature Pagination Dots - Only visible on mobile */}
+            <div className="flex justify-center items-center gap-2 mt-8 md:hidden">
+              {Array.from({ length: totalFeaturePages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentFeaturePage(page)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    page === currentFeaturePage
+                      ? "bg-primary w-8"
+                      : "bg-gray-600 hover:bg-primary/50"
+                  }`}
+                  aria-label={`Go to feature page ${page}`}
+                />
               ))}
             </div>
           </div>
@@ -340,7 +398,7 @@ export default function Test() {
                 <div className="absolute left-1/2 top-0 -translate-x-1/2 w-60 h-32 bg-gradient-to-br from-primary/30 via-pink-500/20 to-yellow-500/20 blur-[60px] rounded-full z-0 animate-pulse" />
                 <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-1 relative z-10">Hourly Plan</h3>
                 <div className="text-primary/80 text-sm font-semibold mb-2 relative z-10">Quickest Content</div>
-                <div className="text-gray-400 mb-4 text-base relative z-10">Perfect for creators who want a single, fast, high-quality reel.</div>
+                <div className="text-gray-400 mb-4 text-base relative z-10">Perfect for anyone who want a single, fast, high-quality reel.</div>
                 <div className="flex items-baseline gap-2 mb-2 relative z-10">
                   <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-pink-500 to-yellow-500 bg-clip-text text-transparent animate-gradient-x">₹1,999</span>
                 </div>
@@ -423,6 +481,7 @@ export default function Test() {
           </div>
         </section>
 
+              <FlashootFeaturesCarousel />
        
 
         {/* Pricing Section */}
@@ -493,26 +552,26 @@ export default function Test() {
 
                         <div className="flex-grow">
                           {pkg.showWeddingCard && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6  mx-auto">
+                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mx-auto">
                               {/* Basic Card */}
-                              <div className="bg-[#2a1616] rounded-2xl p-4 md:p-6 flex flex-col items-start shadow-lg border border-[#ff000033] mx-auto">
+                                <div className="bg-[#2a1616] rounded-2xl p-4 md:p-4 flex flex-col items-start shadow-lg border border-[#ff000033]">
                                 <div className="text-xs font-bold text-[#ff6a6a] uppercase mb-1 tracking-widest">Single Event</div>
                                 <div className="text-2xl font-bold text-white mb-1">Basic</div>
                               </div>
                               {/* Silver Card */}
-                              <div className="bg-[#2a1616] rounded-2xl p-4 md:p-6 flex flex-col items-start shadow-lg border border-[#ff000033] mx-auto">
+                                <div className="bg-[#2a1616] rounded-2xl p-4 md:p-4 flex flex-col items-start shadow-lg border border-[#ff000033]">
                                 <div className="text-xs font-bold text-[#ff6a6a] uppercase mb-1 tracking-widest">Three Events</div>
                                 <div className="text-2xl font-bold text-white mb-1">Silver</div>
                               </div>
                               {/* Gold Card */}
-                              <div className="bg-[#2a1616] rounded-2xl p-4 md:p-6 flex flex-col items-start shadow-lg border border-[#ff000033]  mx-auto relative">
+                              <div className="bg-[#2a1616] rounded-2xl p-4 md:p-4 flex flex-col items-start shadow-lg border border-[#ff000033] relative">
                                 <div className="text-xs font-bold text-[#ff6a6a] uppercase mb-1 tracking-widest">Four Events</div>
                                 <div className="text-2xl font-bold text-white mb-1">Gold</div>
                               </div>
                               {/* Platinum Card */}
-                              <div className="bg-[#2a1616] rounded-2xl p-4 md:p-6 flex flex-col items-start shadow-lg border border-[#ff000033]  mx-auto">
+                              <div className="bg-[#2a1616] rounded-2xl p-4 md:p-4 flex flex-col items-start shadow-lg border border-[#ff000033]">
                                 <div className="text-xs font-bold text-[#ff6a6a] uppercase mb-1 tracking-widest">Complete Wedding</div>
-                                <div className="text-2xl font-bold text-white mb-1">Platinum</div>
+                                <div className="text-2xl font-bold text-white mb-1  ">Platinum</div>
                               </div>
                             </div>
                           )}
@@ -584,7 +643,7 @@ export default function Test() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {getCurrentTestimonials().map((testimonial, index) => (
                 <motion.div
                   key={`${testimonial.name}-${currentPage}-${index}`}
@@ -592,7 +651,7 @@ export default function Test() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ delay: index * 0.1 }}
-                  className="relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 min-h-[300px] flex flex-col"
+                  className="relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 min-h-[200px] md:min-h-[300px] flex flex-col"
                 >
                   <div className="absolute -top-4 left-6">
                     <div className="p-2 rounded-lg bg-primary/20 backdrop-blur-sm border border-primary/20">

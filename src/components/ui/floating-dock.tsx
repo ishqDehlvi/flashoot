@@ -7,6 +7,7 @@ import {
 } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { useRef, useState } from "react";
+import React from "react";
 
 export const FloatingDock = ({
   items,
@@ -68,8 +69,8 @@ const FloatingDockMobile = ({
                   >
                     <motion.div
                       className={cn(
-                        "h-10 w-10 rounded-xl backdrop-blur-xl border flex items-center justify-center transition-all duration-300",
-                        "bg-black/40 border-white/10 hover:bg-white/10"
+                        "h-10 w-10 rounded-xl backdrop-blur-xl flex items-center justify-center transition-all duration-300",
+                        ""
                       )}
                     >
                       <div className="h-4 w-4 text-white">{item.icon}</div>
@@ -79,10 +80,10 @@ const FloatingDockMobile = ({
                   <Link href={item.href}>
                     <motion.div
                       className={cn(
-                        "h-10 w-10 rounded-xl backdrop-blur-xl border flex items-center justify-center transition-all duration-300",
+                        "h-10 w-10 rounded-xl backdrop-blur-xl flex items-center justify-center transition-all duration-300",
                         location === item.href
-                          ? "bg-primary/20 border-primary/30"
-                          : "bg-black/40 border-white/10 hover:bg-white/10"
+                          ? ""
+                          : "hover:bg-white/5"
                       )}
                     >
                       <div className={cn(
@@ -99,7 +100,7 @@ const FloatingDockMobile = ({
       </AnimatePresence>
       <motion.button
         onClick={() => setOpen(!open)}
-        className="h-10 w-10 rounded-xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors"
+        className="h-10 w-10 rounded-xl backdrop-blur-xl flex items-center justify-center hover:bg-white/10 transition-colors"
       >
         <IconLayoutNavbarCollapse className="h-5 w-5 text-white" />
       </motion.button>
@@ -122,16 +123,20 @@ const FloatingDockDesktop = ({
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        "mx-auto hidden md:flex flex-col gap-4 items-center rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 py-3 px-4",
+        "mx-auto hidden md:flex flex-row items-center rounded-2xl backdrop-blur-xl py-3 px-4 gap-2",
         className
       )}
     >
-      {items.map((item) => (
-        <IconContainer 
-          key={item.title} 
-          {...item} 
-          isActive={location === item.href}
-        />
+      {items.map((item, index) => (
+        <React.Fragment key={item.title}>
+          <IconContainer 
+            {...item} 
+            isActive={location === item.href}
+          />
+          {index < items.length - 1 && (
+            <div className="h-6 w-px bg-white/10" />
+          )}
+        </React.Fragment>
       ))}
     </motion.div>
   );
@@ -158,20 +163,16 @@ function IconContainer({
       ref={ref}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={cn(
-        "w-10 h-10 rounded-xl backdrop-blur-xl border flex items-center justify-center relative transition-colors duration-300 group",
-        isActive && !isExternal
-          ? "bg-primary/20 border-primary/30"
-          : "bg-black/40 border-white/10 hover:bg-white/10"
-      )}
+      className=
+        "w-10 h-10 rounded-xl flex items-center justify-center relative transition-colors duration-300 group hover:bg-white/5"
     >
       <AnimatePresence>
         {hovered && (
           <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 5 }}
-            className="absolute left-full ml-2 px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-xl border border-white/10 text-white text-xs whitespace-nowrap"
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 5 }}
+            className="absolute top-full mt-2 px-2 py-1 rounded-lg backdrop-blur-xl text-white text-xs whitespace-nowrap left-1/2 -translate-x-1/2"
           >
             {title}
           </motion.div>
