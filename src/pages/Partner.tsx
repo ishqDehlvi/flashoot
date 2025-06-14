@@ -7,7 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { createClient } from '@supabase/supabase-js';
 import { TracingBeam } from "@/components/ui/tracing-beam";
-import { TracingBeamNew } from "@/components/ui/tracing-beamNew";
+// import { TracingBeamNew } from "@/components/ui/tracing-beamNew";
 
 const requirements = [
   {
@@ -215,46 +215,11 @@ export default function Partner() {
                   <Camera className="w-3.5 h-3.5 text-primary" />
                   <span className="text-sm font-medium">Who Are Flashooters?</span>
                 </div>
-                <h2 className="text-4xl font-bold mb-6">iPhone Creators Making Magic</h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group">
-                  <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/30 transition-colors duration-300">
-                    <Camera className="w-7 h-7 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 group-hover:text-primary transition-colors duration-300">
-                    Professional Reel Creators
-                  </h3>
-                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-lg">
-                    Flashooters are trained iPhone creators who shoot, edit, and deliver professional Instagram reels in just 10 minutes.
-                  </p>
-                </div>
-
-                <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group">
-                  <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/30 transition-colors duration-300">
-                    <Users className="w-7 h-7 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 group-hover:text-primary transition-colors duration-300">
-                    For Everyone
-                  </h3>
-                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-lg">
-                    Whether you're a student, hustler, or creative explorer—Flashoot helps you earn through content creation using nothing but your phone.
-                  </p>
-                </div>
-
-                <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group md:col-span-2">
-                  <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/30 transition-colors duration-300">
-                    <MapPin className="w-7 h-7 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 group-hover:text-primary transition-colors duration-300">
-                    Global Presence
-                  </h3>
-                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-lg">
-                    We're live across India, UAE, USA—and growing fast. Join our expanding network of creators worldwide.
-                  </p>
-                </div>
-              </div>
+              <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
+                Flashooters are trained iPhone creators who shoot, edit, and deliver professional Instagram reels in just 10 minutes. Whether you're a student, hustler, or creative explorer—Flashoot helps you earn through content creation using nothing but your phone. We're live across India, UAE, USA—and growing fast. Join our expanding network of creators worldwide.
+              </p>
             </div>
           </div>
         </section>
@@ -383,92 +348,47 @@ export default function Partner() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0">
-                      <Phone className="w-5 h-5 text-primary" />
+                {requirements.map((requirement, index) => {
+                  const Icon = requirement.icon;
+                  return (
+                    <div
+                      key={index}
+                      className="group relative p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                      <div className="relative flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0">
+                          <Icon className="w-6 h-6 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300 mb-1">
+                            {requirement.title}
+                          </h3>
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                            {requirement.description}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300 mb-1">
-                        iPhone 13 Pro or newer
-                      </h3>
-                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                        Latest iPhone models for optimal quality
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0">
-                      <Camera className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300 mb-1">
-                        Strong Reel Knowledge
-                      </h3>
-                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                        Understanding of reels, editing, and trends
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0">
-                      <MapPin className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300 mb-1">
-                        Local Availability
-                      </h3>
-                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                        Ready to take up local shoots
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0">
-                      <Clock className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300 mb-1">
-                        Work Ethic
-                      </h3>
-                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                        Clean and punctual work ethic
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300 group md:col-span-2">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0">
-                      <Instagram className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300 mb-1">
-                        Instagram Profile
-                      </h3>
-                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                        Public profile or reel samples to showcase your work
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
 
-              <div className="mt-12 text-center">
+              <div className="mt-12 text-center flex flex-col items-center gap-6">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 text-primary font-medium">
                   <Sparkles className="w-4 h-4" />
                   <span>No degree or prior work experience needed</span>
                 </div>
+                
+                <button
+                  onClick={() => {
+                    document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary/90 transition-colors text-white font-medium group"
+                >
+                  <span>Apply Now to Become a Flashooter</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           </div>
@@ -611,45 +531,6 @@ export default function Partner() {
                   </motion.div>
                 </div>
               </TracingBeam>
-            </div>
-          </div>
-        </section>
-
-        {/* Requirements Section */}
-        <section id="requirements" className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold mb-4">Requirements</h2>
-                <p className="text-gray-400 text-lg">What you need to join our network of iPhone creators</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {requirements.map((requirement, index) => {
-                  const Icon = requirement.icon;
-                  return (
-                    <div
-                      key={index}
-                      className="group relative p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                      <div className="relative flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0">
-                          <Icon className="w-6 h-6 text-primary" />
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300 mb-1">
-                            {requirement.title}
-                          </h3>
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                            {requirement.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
           </div>
         </section>
@@ -826,214 +707,7 @@ export default function Partner() {
           </div>
         </section>
 
-        {/* What Happens Next Section */}
-        <section id="what-happens-next" className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-center mb-16"
-              >
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6 hover:border-primary/50 transition-all duration-300">
-                  <ArrowRight className="w-3.5 h-3.5 text-primary" />
-                  <span className="text-sm font-medium">What Happens Next?</span>
-                </div>
-                <h2 className="text-4xl font-bold mb-4">Your Path to Becoming a Flashooter</h2>
-                <p className="text-gray-400 text-lg">Simple steps to start your creative journey</p>
-              </motion.div>
-
-              <div className="relative min-h-[600px]">
-                <TracingBeamNew className="px-6">
-                  <div className="space-y-8 relative">
-                    {/* Step 1 */}
-                    <motion.div 
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: 0.1 }}
-                      className="relative group"
-                    >
-                      <div className="flex items-start gap-6 md:gap-8">
-                        <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0 relative z-20">
-                          <span className="text-2xl font-bold text-primary">1</span>
-                        </div>
-                        <div className="flex-1 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 group-hover:border-primary/30 transition-all duration-300 relative z-10">
-                          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
-                            Application Review
-                          </h3>
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                            Our team shortlists your application
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Step 2 */}
-                    <motion.div 
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                      className="relative group"
-                    >
-                      <div className="flex items-start gap-6 md:gap-8">
-                        <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0 relative z-20">
-                          <span className="text-2xl font-bold text-primary">2</span>
-                        </div>
-                        <div className="flex-1 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 group-hover:border-primary/30 transition-all duration-300 relative z-10">
-                          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
-                            WhatsApp Invite
-                          </h3>
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                            You'll receive a WhatsApp invite
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Step 3 */}
-                    <motion.div 
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                      className="relative group"
-                    >
-                      <div className="flex items-start gap-6 md:gap-8">
-                        <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0 relative z-20">
-                          <span className="text-2xl font-bold text-primary">3</span>
-                        </div>
-                        <div className="flex-1 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 group-hover:border-primary/30 transition-all duration-300 relative z-10">
-                          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
-                            Workshop & Demo
-                          </h3>
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                            Attend workshop + demo shoot
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Step 4 */}
-                    <motion.div 
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: 0.4 }}
-                      className="relative group"
-                    >
-                      <div className="flex items-start gap-6 md:gap-8">
-                        <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0 relative z-20">
-                          <span className="text-2xl font-bold text-primary">4</span>
-                        </div>
-                        <div className="flex-1 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 group-hover:border-primary/30 transition-all duration-300 relative z-10">
-                          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
-                            Review & Rating
-                          </h3>
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                            Get reviewed and rated
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Step 5 */}
-                    <motion.div 
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                      className="relative group"
-                    >
-                      <div className="flex items-start gap-6 md:gap-8">
-                        <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors duration-300 flex-shrink-0 relative z-20">
-                          <span className="text-2xl font-bold text-primary">5</span>
-                        </div>
-                        <div className="flex-1 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 group-hover:border-primary/30 transition-all duration-300 relative z-10">
-                          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
-                            Official Onboarding
-                          </h3>
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                            Get officially onboarded with app access and paid gigs
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                </TracingBeamNew>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section id="faq" className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-center mb-16"
-              >
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6 hover:border-primary/50 transition-all duration-300">
-                  <Sparkles className="w-3.5 h-3.5 text-primary" />
-                  <span className="text-sm font-medium">Frequently Asked Questions</span>
-                </div>
-                <h2 className="text-4xl font-bold mb-4">Got Questions?</h2>
-                <p className="text-gray-400 text-lg">Everything you need to know about becoming a Flashooter</p>
-              </motion.div>
-
-              <div className="space-y-4">
-                {faqs.map((faq, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <button
-                      onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                      className="w-full text-left group"
-                    >
-                      <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                        <div className="flex items-center justify-between gap-4">
-                          <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300">
-                            {faq.question}
-                          </h3>
-                          <ChevronDown 
-                            className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${
-                              openFaqIndex === index ? 'rotate-180 text-primary' : ''
-                            }`} 
-                          />
-                        </div>
-                        <motion.div
-                          initial={false}
-                          animate={{ 
-                            height: openFaqIndex === index ? 'auto' : 0,
-                            opacity: openFaqIndex === index ? 1 : 0,
-                            marginTop: openFaqIndex === index ? 16 : 0
-                          }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                            {faq.answer}
-                          </p>
-                        </motion.div>
-                      </div>
-                    </button>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        
 
         {/* Application Form Section */}
         <section id="apply" className="py-20 relative">
@@ -1183,6 +857,72 @@ export default function Partner() {
                   </div>
                 </button>
               </form>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section id="faq" className="py-20 relative">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="text-center mb-16"
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6 hover:border-primary/50 transition-all duration-300">
+                  <Sparkles className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-sm font-medium">Frequently Asked Questions</span>
+                </div>
+                <h2 className="text-4xl font-bold mb-4">Got Questions?</h2>
+                <p className="text-gray-400 text-lg">Everything you need to know about becoming a Flashooter</p>
+              </motion.div>
+
+              <div className="space-y-4">
+                {faqs.map((faq, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <button
+                      onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                      className="w-full text-left group"
+                    >
+                      <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <div className="flex items-center justify-between gap-4">
+                          <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300">
+                            {faq.question}
+                          </h3>
+                          <ChevronDown 
+                            className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${
+                              openFaqIndex === index ? 'rotate-180 text-primary' : ''
+                            }`} 
+                          />
+                        </div>
+                        <motion.div
+                          initial={false}
+                          animate={{ 
+                            height: openFaqIndex === index ? 'auto' : 0,
+                            opacity: openFaqIndex === index ? 1 : 0,
+                            marginTop: openFaqIndex === index ? 16 : 0
+                          }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                            {faq.answer}
+                          </p>
+                        </motion.div>
+                      </div>
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

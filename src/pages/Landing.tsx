@@ -1,6 +1,6 @@
 'use client'
 import { motion } from "framer-motion";
-import { Check, ArrowRight,  Sparkles,  IndianRupee, Download, Quote } from "lucide-react";
+import { Check, ArrowRight,  Sparkles,  IndianRupee, Download, Quote, ChevronDown } from "lucide-react";
 import NavHeader from "../components/NavHeader";
 import { Footer } from "../components/Footer";
 import { FloatingNav } from "@/components/FloatingNav";
@@ -26,6 +26,7 @@ import Swetha from "../images/Swetha.jpg";
 import { useState, useEffect, useRef } from "react";
 import { ContainerScrollDemo } from "@/components/ui/container-scroll-demo";
 import FlashootFeaturesCarousel from "@/components/features";
+
 const features = [
   {
     title: "Trained & Certified Reel Makers",
@@ -58,9 +59,6 @@ const features = [
     icon: why6,
   }
 ];
-
-// Create an infinite scroll array by duplicating features
-const infiniteFeatures = [...features, ...features, ...features];
 
 const testimonials = [
   {
@@ -110,6 +108,10 @@ const testimonials = [
   },
 ];
 
+// Create infinite scroll arrays after both source arrays are defined
+const infiniteFeatures = [...features, ...features, ...features];
+const infiniteTestimonials = [...testimonials, ...testimonials, ...testimonials];
+
 const packages = [
   {
     title: "Wedding Packages",
@@ -152,8 +154,8 @@ const packages = [
 export default function Test() {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
-  const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
+  // const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
+  // const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
 
   const [currentFeaturePage, setCurrentFeaturePage] = useState(1);
   // const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
@@ -171,6 +173,38 @@ export default function Test() {
   const testimonialScrollRef = useRef<HTMLDivElement>(null);
   const testimonialAutoScrollIntervalRef = useRef<NodeJS.Timeout>();
   const testimonialPauseTimeoutRef = useRef<NodeJS.Timeout>();
+  const [isDragging] = useState(false);
+  // const [startX, setStartX] = useState(0);
+  // const [scrollLeft, setScrollLeft] = useState(0);
+
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const faqs = [
+    {
+      question: "How much do I get paid per shoot?",
+      answer: "You earn 70% of the booking. Most shoots range from ₹1,999–₹4,999."
+    },
+    {
+      question: "I don't have experience. Can I still apply?",
+      answer: "Yes. We train you on everything. Your creativity matters more."
+    },
+    {
+      question: "Can I work only on weekends or evenings?",
+      answer: "Yes. You choose when to accept bookings."
+    },
+    {
+      question: "Is there any investment or fee?",
+      answer: "None. You only need your iPhone. We handle training and gear."
+    },
+    {
+      question: "Will I get support after onboarding?",
+      answer: "Yes. Our support and operations team is always available."
+    },
+    {
+      question: "Can I apply if I'm not in India?",
+      answer: "Yes! We are live in the UAE, USA and expanding to more countries."
+    }
+  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -309,43 +343,43 @@ export default function Test() {
   }, []);
 
   // Create infinite testimonials array
-  const infiniteTestimonials = [...testimonials, ...testimonials, ...testimonials];
+  // const infiniteTestimonials = [...testimonials, ...testimonials, ...testimonials];
 
   // Add testimonial auto-scroll functionality
   useEffect(() => {
     const container = testimonialScrollRef.current;
     if (!container) return;
 
-    const startTestimonialAutoScroll = () => {
+    const startAutoScroll = () => {
       if (testimonialAutoScrollIntervalRef.current) {
         clearInterval(testimonialAutoScrollIntervalRef.current);
       }
 
       testimonialAutoScrollIntervalRef.current = setInterval(() => {
-        if (!isTestimonialPaused && container) {
-          const cardWidth = container.querySelector('.testimonial-card')?.clientWidth || 300;
+        if (!isTestimonialPaused && !isDragging && container) {
+          const cardWidth = 400; // Width of each card
           const gap = 24; // gap-6 = 24px
           const scrollAmount = cardWidth + gap;
-          
           const maxScroll = container.scrollWidth - container.clientWidth;
           const currentScroll = container.scrollLeft;
-          
+
           if (currentScroll >= maxScroll - scrollAmount) {
-            container.scrollTo({ 
-              left: 0, 
-              behavior: 'smooth' 
-            });
+            // Reset to start when reaching the end
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+            setCurrentPage(1);
           } else {
+            // Scroll to next card
             container.scrollTo({ 
               left: currentScroll + scrollAmount, 
               behavior: 'smooth' 
             });
+            setCurrentPage(Math.floor((currentScroll + scrollAmount) / scrollAmount) % testimonials.length + 1);
           }
         }
-      }, 3000);
+      }, 3000); // Scroll every 3 seconds
     };
 
-    const handleTestimonialInteraction = () => {
+    const handleUserInteraction = () => {
       setIsTestimonialPaused(true);
       
       if (testimonialPauseTimeoutRef.current) {
@@ -354,15 +388,21 @@ export default function Test() {
       
       testimonialPauseTimeoutRef.current = setTimeout(() => {
         setIsTestimonialPaused(false);
-        startTestimonialAutoScroll();
+        startAutoScroll();
       }, 5000);
     };
 
-    startTestimonialAutoScroll();
+    // Start autoscroll
+    startAutoScroll();
 
-    container.addEventListener('touchstart', handleTestimonialInteraction);
-    container.addEventListener('mousedown', handleTestimonialInteraction);
-    container.addEventListener('scroll', handleTestimonialInteraction);
+    // Add event listeners
+    container.addEventListener('mouseenter', handleUserInteraction);
+    container.addEventListener('mouseleave', () => {
+      setIsTestimonialPaused(false);
+      startAutoScroll();
+    });
+    container.addEventListener('touchstart', handleUserInteraction);
+    container.addEventListener('wheel', handleUserInteraction);
 
     return () => {
       if (testimonialAutoScrollIntervalRef.current) {
@@ -371,17 +411,21 @@ export default function Test() {
       if (testimonialPauseTimeoutRef.current) {
         clearTimeout(testimonialPauseTimeoutRef.current);
       }
-      container.removeEventListener('touchstart', handleTestimonialInteraction);
-      container.removeEventListener('mousedown', handleTestimonialInteraction);
-      container.removeEventListener('scroll', handleTestimonialInteraction);
+      container.removeEventListener('mouseenter', handleUserInteraction);
+      container.removeEventListener('mouseleave', () => {
+        setIsTestimonialPaused(false);
+        startAutoScroll();
+      });
+      container.removeEventListener('touchstart', handleUserInteraction);
+      container.removeEventListener('wheel', handleUserInteraction);
     };
-  }, [isTestimonialPaused]);
+  }, [isTestimonialPaused, testimonials.length, isDragging]);
 
-  const getCurrentTestimonials = () => {
-    const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
-    const startIndex = (currentPage - 1) * testimonialsPerPage;
-    return testimonials.slice(startIndex, startIndex + testimonialsPerPage);
-  };
+  // const getCurrentTestimonials = () => {
+  //   const testimonialsPerPage = window.innerWidth < 768 ? 1 : 3;
+  //   const startIndex = (currentPage - 1) * testimonialsPerPage;
+  //   return testimonials.slice(startIndex, startIndex + testimonialsPerPage);
+  // };
 
   // const getCurrentFeatures = () => {
   //   const featuresPerPage = window.innerWidth < 768 ? 1 : 6;
@@ -441,7 +485,7 @@ export default function Test() {
                 </a>
               </div>
               {/* Client Stats Row */}
-              <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-[80px] md:mt-12 mb-4">
+              <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-[100px] md:mt-24 mb-4">
                 <div className="text-center">
                   <div className="text-2xl md:text-3xl font-bold text-primary">50,000+</div>
                   <div className="text-sm md:text-base text-gray-400">Reels Delivered</div>
@@ -458,7 +502,7 @@ export default function Test() {
                 </div>
               </div>
               {/* Press Logos Row */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 mt-14 md:mt-8">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 mt-18 md:mt-12">
                 <span className="text-xs sm:text-sm md:text-base font-medium text-gray-400 uppercase tracking-wider">
                   Featured In
                 </span>
@@ -499,7 +543,7 @@ export default function Test() {
         </section>
 
 
-        <section className="py-16 md:py-20 relative">
+        <section className="py-16 mt-16 md:mt-24 md:py-20 relative">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -645,6 +689,10 @@ export default function Test() {
                       <Check className="w-5 h-5 text-primary flex-shrink-0" />
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Trained and Certified Reel Maker</span>
                     </div>
+                    <div className="flex items-center gap-3 group">
+                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Flashoot Branding Included</span>
+                    </div>
                   </div>
                 </div>
                 <a href="/enquiry" className="w-full px-6 py-3 rounded-xl text-lg font-medium bg-gradient-to-br from-[#FE002A] via-[#FE002A] to-[#B3001E] hover:from-[#FE002A]/95 hover:via-[#FE002A]/95 hover:to-[#B3001E]/95 transition-all shadow-[0_2px_12px_-3px_rgba(254,0,42,0.4)] text-white flex items-center justify-center gap-2 relative z-10">
@@ -695,6 +743,10 @@ export default function Test() {
                     <div className="flex items-center gap-3 group">
                       <Check className="w-5 h-5 text-primary flex-shrink-0" />
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Trained and Certified Reel Maker</span>
+                    </div>
+                    <div className="flex items-center gap-3 group">
+                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-gray-300 group-hover:text-white transition-colors duration-300">Flashoot Branding Included</span>
                     </div>
                   </div>
                 </div>
@@ -868,16 +920,26 @@ export default function Test() {
               </p>
             </div>
 
-            {/* Desktop Grid View with Auto-scroll */}
-            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6">
-              {getCurrentTestimonials().map((testimonial, index) => (
+            {/* Desktop Grid View with Auto-scroll - Using mobile implementation */}
+            <div 
+              ref={testimonialScrollRef}
+              className="hidden md:flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide"
+              style={{
+                scrollbarWidth: 'none' as const,
+                msOverflowStyle: 'none' as const,
+                WebkitOverflowScrolling: 'touch' as const,
+              }}
+              onMouseEnter={() => setIsTestimonialPaused(true)}
+              onMouseLeave={() => setIsTestimonialPaused(false)}
+            >
+              {infiniteTestimonials.map((testimonial, index) => (
                 <motion.div
-                  key={`desktop-${testimonial.name}-${currentPage}-${index}`}
+                  key={`desktop-${testimonial.name}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ delay: index * 0.1 }}
-                  className="relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 min-h-[200px] md:min-h-[300px] flex flex-col"
+                  className="testimonial-card mt-4 flex-shrink-0 w-[400px] snap-center relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col"
                 >
                   <div className="absolute -top-4 left-6">
                     <div className="p-2 rounded-lg bg-primary/20 backdrop-blur-sm border border-primary/20">
@@ -909,10 +971,22 @@ export default function Test() {
 
             {/* Desktop Pagination Dots */}
             <div className="hidden md:flex justify-center items-center gap-2 mt-12">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              {Array.from({ length: testimonials.length }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
-                  onClick={() => setCurrentPage(page)}
+                  onClick={() => {
+                    const container = testimonialScrollRef.current;
+                    if (container) {
+                      const cardWidth = 400; // Width of each card
+                      const gap = 24; // gap-6 = 24px
+                      const totalWidth = cardWidth + gap;
+                      container.scrollTo({
+                        left: (page - 1) * totalWidth,
+                        behavior: 'smooth'
+                      });
+                      setCurrentPage(page);
+                    }
+                  }}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     page === currentPage
                       ? "bg-primary w-8"
@@ -923,10 +997,10 @@ export default function Test() {
               ))}
             </div>
 
-            {/* Mobile Scrollable View */}
+            {/* Mobile Scrollable View - Keep as is since it's working */}
             <div 
               ref={testimonialScrollRef}
-              className="md:hidden flex overflow-x-auto  gap-6 snap-x snap-mandatory scrollbar-hide"
+              className="md:hidden flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide"
               style={{
                 scrollbarWidth: 'none' as const,
                 msOverflowStyle: 'none' as const,
@@ -970,6 +1044,72 @@ export default function Test() {
                   </div>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section id="faq" className="py-20 relative">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="text-center mb-16"
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6 hover:border-primary/50 transition-all duration-300">
+                  <Sparkles className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-sm font-medium">Frequently Asked Questions</span>
+                </div>
+                <h2 className="text-4xl font-bold mb-4">Got Questions?</h2>
+                <p className="text-gray-400 text-lg">Everything you need to know about becoming a Flashooter</p>
+              </motion.div>
+
+              <div className="space-y-4">
+                {faqs.map((faq, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <button
+                      onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                      className="w-full text-left group"
+                    >
+                      <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <div className="flex items-center justify-between gap-4">
+                          <h3 className="text-lg font-semibold group-hover:text-primary transition-colors duration-300">
+                            {faq.question}
+                          </h3>
+                          <ChevronDown 
+                            className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${
+                              openFaqIndex === index ? 'rotate-180 text-primary' : ''
+                            }`} 
+                          />
+                        </div>
+                        <motion.div
+                          initial={false}
+                          animate={{ 
+                            height: openFaqIndex === index ? 'auto' : 0,
+                            opacity: openFaqIndex === index ? 1 : 0,
+                            marginTop: openFaqIndex === index ? 16 : 0
+                          }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                            {faq.answer}
+                          </p>
+                        </motion.div>
+                      </div>
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

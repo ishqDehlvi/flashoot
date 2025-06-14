@@ -9,8 +9,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
           {/* Certifications - Will appear first on mobile */}
           <div className="flex justify-center md:justify-end items-center gap-6 order-first md:order-last">
-            <img src={gdpr} alt="GDPR Compliant" className="h-24 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-            <img src={iso} alt="ISO Certified" className="h-24 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+            <img src={gdpr} alt="GDPR Compliant" className="h-20 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+            <img src={iso} alt="ISO Certified" className="h-20 w-auto opacity-80 hover:opacity-100 transition-opacity" />
           </div>
 
           {/* Company Info */}

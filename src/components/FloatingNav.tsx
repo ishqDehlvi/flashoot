@@ -1,6 +1,7 @@
 import {
   Home,
   Compass,
+  Sparkles,
   History,
   Instagram,
 } from "lucide-react";
@@ -21,11 +22,11 @@ export const FloatingNav = () => {
       icon: <Compass className="h-full w-full" />,
       href: "/discover",
     },
-    // {
-    //   title: "Features",
-    //   icon: <Sparkles className="h-full w-full" />,
-    //   href: "/features",
-    // },
+    {
+      title: "Partner",
+      icon: <Sparkles className="h-full w-full" />,
+      href: "/partner",
+    },
     // {
     //   title: "Our Story",
     //   icon: <BookText className="h-full w-full" />,
