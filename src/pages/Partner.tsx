@@ -173,7 +173,7 @@ export default function Partner() {
 
       <main className="relative pt-20">
         {/* Hero Section */}
-        <section id="hero" className="relative p-4 flex items-center overflow-hidden">
+        <section id="hero" className="relative p-2 md:p-4 flex items-center overflow-hidden">
           {/* Background */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-primary/5 to-transparent" />
@@ -207,11 +207,11 @@ export default function Partner() {
         </section>
 
         {/* Who Are Flashooters Section */}
-        <section id="who-are-flashooters" className="py-20 relative">
+        <section id="who-are-flashooters" className="py-8 md:py-20 relative">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6 hover:border-primary/50 transition-all duration-300">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-0 md:mb-6 hover:border-primary/50 transition-all duration-300">
                   <Camera className="w-3.5 h-3.5 text-primary" />
                   <span className="text-sm font-medium">Who Are Flashooters?</span>
                 </div>
