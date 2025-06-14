@@ -664,7 +664,7 @@ export default function Test() {
                   <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-pink-500 to-yellow-500 bg-clip-text text-transparent animate-gradient-x">₹1,999</span>
                 </div>
                 <div className="text-xs text-gray-400 mb-2 relative z-10">+ GST</div>
-                <div className="text-gray-400 mb-2 text-xs relative z-10">All taxes included</div>
+                {/* <div className="text-gray-400 mb-2 text-xs relative z-10">All taxes included</div> */}
                 <div className="w-full h-px bg-gradient-to-r from-primary/20 via-white/10 to-primary/20 my-4 relative z-10" />
                 <div className="text-xs uppercase tracking-wider text-primary/80 mb-2 relative z-10">What's included</div>
                 <div className="flex-grow w-full relative z-10">
@@ -673,7 +673,7 @@ export default function Test() {
                       <Check className="w-5 h-5 text-primary flex-shrink-0" />
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">1 Hour Shoot</span>
                     </div>
-                    <div className="flex items-center gap-3 group">
+                    <div className="flex items-center gap-3 group"> 
                       <Check className="w-5 h-5 text-primary flex-shrink-0" />
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">1 Edited Reel Delivered</span>
                     </div>
@@ -719,7 +719,7 @@ export default function Test() {
                   <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-pink-500 to-yellow-500 bg-clip-text text-transparent animate-gradient-x">₹4,999</span>
                 </div>
                 <div className="text-xs text-gray-400 mb-2 relative z-10">+ GST</div>
-                <div className="text-gray-400 mb-2 text-xs relative z-10">All taxes extra</div>
+                {/* <div className="text-gray-400 mb-2 text-xs relative z-10">All taxes extra</div> */}
                 <div className="w-full h-px bg-gradient-to-r from-primary/20 via-white/10 to-primary/20 my-4 relative z-10" />
                 <div className="text-xs uppercase tracking-wider text-primary/80 mb-2 relative z-10">What's included</div>
                 <div className="flex-grow w-full relative z-10">
