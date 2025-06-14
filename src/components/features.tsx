@@ -114,7 +114,7 @@ export default function FlashootFeaturesCarousel() {
                 transition={{ delay: idx * 0.1 }}
                 className="px-2 md:px-4"
               >
-                <div className="relative overflow-hidden rounded-3xl bg-black/40 backdrop-blur-xl border border-white/10 p-6 md:p-8 min-h-[540px] flex flex-col group hover:border-primary/30 transition-all duration-300">
+                <div className="relative overflow-hidden rounded-3xl bg-black/40 backdrop-blur-xl border border-white/10 p-6 md:p-8 min-h-[400px] md:min-h-[540px] flex flex-col group hover:border-primary/30 transition-all duration-300">
                   {/* Card Background Effects */}
                   <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-50" />
@@ -132,11 +132,11 @@ export default function FlashootFeaturesCarousel() {
                       </p>
                     </div>
                     <div className="flex-1 flex items-stretch justify-center w-full">
-                      <div className="relative w-full h-[300px] overflow-hidden rounded-2xl group-hover:border-primary/30 transition-all duration-300">
+                      <div className="relative w-full aspect-[4/3] md:h-[300px] overflow-hidden rounded-2xl group-hover:border-primary/30 transition-all duration-300">
                         <img
                           src={feature.image}
                           alt={feature.title}
-                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-contain md:object-cover transform group-hover:scale-105 transition-transform duration-500"
                           style={{ boxShadow: '0 4px 16px 0 rgba(0,0,0,0.18)' }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
