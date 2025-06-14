@@ -591,7 +591,7 @@ export default function Test() {
             {/* Mobile Scrollable View */}
             <div 
               ref={scrollContainerRef}
-              className="md:hidden flex overflow-x-auto gap-4  snap-x snap-mandatory scrollbar-hide"
+              className="md:hidden flex overflow-x-auto overflow-y-hidden gap-4 snap-x snap-mandatory scrollbar-hide"
               style={{
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
@@ -607,7 +607,7 @@ export default function Test() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex-shrink-0 w-[280px] mt-2 snap-center bg-white/5 rounded-2xl border border-white/10 hover:border-primary/30 transition-all duration-300 group overflow-hidden"
+                    className="flex-shrink-0 w-[280px]  snap-center bg-white/5 rounded-2xl border border-white/10 hover:border-primary/30 transition-all duration-300 group overflow-hidden"
                 >
                   {/* Text Section with padding */}
                   <div className="p-4">
@@ -621,7 +621,7 @@ export default function Test() {
                     <img 
                       src={feature.icon} 
                       alt={feature.title} 
-                      className="w-[600px] h-[600px] object-contain transform group-hover:scale-105 transition-transform duration-300" 
+                      className="w-[700px] h-[700px] translate-y-[80px] object-contain transform group-hover:scale-105 transition-transform duration-300" 
                     />
                   </div>
                 </motion.div>
@@ -664,7 +664,7 @@ export default function Test() {
                   <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-pink-500 to-yellow-500 bg-clip-text text-transparent animate-gradient-x">₹1,999</span>
                 </div>
                 <div className="text-xs text-gray-400 mb-2 relative z-10">+ GST</div>
-                <div className="text-gray-400 mb-2 text-xs relative z-10">All taxes extra</div>
+                <div className="text-gray-400 mb-2 text-xs relative z-10">All taxes included</div>
                 <div className="w-full h-px bg-gradient-to-r from-primary/20 via-white/10 to-primary/20 my-4 relative z-10" />
                 <div className="text-xs uppercase tracking-wider text-primary/80 mb-2 relative z-10">What's included</div>
                 <div className="flex-grow w-full relative z-10">
