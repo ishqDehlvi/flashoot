@@ -22,32 +22,33 @@ app.use(express.json());
 // Email endpoint
 app.post('/api/send-email', async (req, res) => {
   try {
-    const { formData, applicationId } = req.body;
+    const { to, subject, data } = req.body;
 
-    const { data, error } = await resend.emails.send({
+    const { data: emailData, error } = await resend.emails.send({
       from: 'Flashoot <onboarding@flashoot.com>',
-      to: 'onboarding@flashoot.com',
-      subject: `New Partner Application: ${formData.fullName}`,
+      to: to || 'aman@flashoot.com',
+      subject: subject || `New Partner Application: ${data.fullName}`,
       html: `
         <h2>New Partner Application</h2>
-        <p><strong>Name:</strong> ${formData.fullName}</p>
-        <p><strong>iPhone Model:</strong> ${formData.iphoneModel}</p>
-        <p><strong>Location:</strong> ${formData.location}</p>
-        <p><strong>Contact:</strong> ${formData.contactNumber}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Instagram:</strong> ${formData.instagramId}</p>
-        <p><strong>Recent Works:</strong> ${formData.recentWorks}</p>
+        <p><strong>Name:</strong> ${data.fullName}</p>
+        <p><strong>iPhone Model:</strong> ${data.iphoneModel}</p>
+        <p><strong>Location:</strong> ${data.location}</p>
+        <p><strong>Contact:</strong> ${data.contactNumber}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Instagram:</strong> ${data.instagramId}</p>
+        <p><strong>Recent Works:</strong> ${data.recentWorks}</p>
         <br>
-        <p>Application ID: ${applicationId}</p>
+        <p>Application ID: ${data.applicationId}</p>
         <p>Submitted at: ${new Date().toLocaleString()}</p>
       `
     });
 
     if (error) {
+      console.error('Resend error:', error);
       return res.status(400).json({ error });
     }
 
-    return res.status(200).json({ data });
+    return res.status(200).json({ data: emailData });
   } catch (error) {
     console.error('Error sending email:', error);
     return res.status(500).json({ error: 'Failed to send email' });

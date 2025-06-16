@@ -12,6 +12,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,30 +22,15 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      // First, save to Supabase
-      // const { error: supabaseError } = await supabase
-      //   .from('contact_messages')
-      //   .insert([
-      //     {
-      //       name: formData.name,
-      //       email: formData.email,
-      //       message: formData.message,
-      //     }
-      //   ]);
-
-      // if (supabaseError) {
-      //   throw supabaseError;
-      // }
-
-      // Then, send email notification to support team
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/flashoot/send-contact-email`, {
+      const response = await fetch('https://api.cohesyn.in/api/email/contact-us', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: formData.name,
+          fullName: formData.name,
           email: formData.email,
+          phoneNumber: formData.phone,
           message: formData.message
         }),
       });
@@ -59,7 +45,7 @@ export default function Contact() {
       });
 
       // Reset form
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", message: "" });
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error("Failed to send message", {
@@ -241,6 +227,18 @@ export default function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
+                      className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Phone Number</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder=""
                       className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                       required
                     />

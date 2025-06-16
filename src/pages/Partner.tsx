@@ -5,7 +5,7 @@ import { Footer } from "../components/Footer";
 import { FloatingNav } from "@/components/FloatingNav";
 import { useState } from "react";
 import { toast } from "sonner";
-import { createClient } from '@supabase/supabase-js';
+// import { createClient } from '@supabase/supabase-js';
 import { TracingBeam } from "@/components/ui/tracing-beam";
 // import { TracingBeamNew } from "@/components/ui/tracing-beamNew";
 
@@ -42,14 +42,13 @@ const requirements = [
   }
 ];
 
-// Initialize Supabase client
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
-
 // API URL for the Express server
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+// Add function to generate random application ID
+const generateApplicationId = () => {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
 
 export default function Partner() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,12 +56,11 @@ export default function Partner() {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
-    whatsappNumber: "",
-    city: "",
-    instagramProfile: "",
+    contactNumber: "",
+    location: "",
+    instagramId: "",
     iphoneModel: "",
-    referralSource: "",
-    motivation: ""
+    recentWorks: "",
   });
 
   const faqs = [
@@ -95,60 +93,72 @@ export default function Partner() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
-      // Insert into Supabase
-      const { data, error } = await supabase
-        .from('partners')
-        .insert([
-          {
-            full_name: formData.fullName,
-            email: formData.email,
-            whatsapp_number: formData.whatsappNumber,
-            city: formData.city,
-            instagram_profile: formData.instagramProfile,
-            iphone_model: formData.iphoneModel,
-            referral_source: formData.referralSource,
-            motivation: formData.motivation
-          }
-        ])
-        .select()
-        .single();
+      const applicationId = generateApplicationId();
 
-      if (error) throw error;
-
-      // Send email notification through our Express server
-      const emailResponse = await fetch(`${API_URL}/api/send-email`, {
+      // Send to partner email API
+      const response = await fetch('https://api.cohesyn.in/api/email/send-partner-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          formData,
-          applicationId: data.id
+          fullName: formData.fullName,
+          email: formData.email,
+          contactNumber: formData.contactNumber,
+          location: formData.location,
+          instagramId: formData.instagramId,
+          iphoneModel: formData.iphoneModel,
+          about: formData.recentWorks,
+          applicationId: applicationId
         }),
       });
 
-      if (!emailResponse.ok) {
-        throw new Error('Failed to send email notification');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit application');
       }
 
-      toast.success("Application submitted successfully! We'll review it and get back to you soon.");
-      
+      // Send notification email to aman@flashoot.com
+      const notificationResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: 'aman@flashoot.com',
+          subject: `New Partner Application: ${formData.fullName}`,
+          data: {
+            ...formData,
+            applicationId: applicationId
+          }
+        }),
+      });
+
+      if (!notificationResponse.ok) {
+        console.error('Failed to send notification email, but application was submitted');
+      }
+
+      toast.success("Application submitted successfully!", {
+        description: "We'll review your application and get back to you soon.",
+      });
+
       // Reset form
       setFormData({
         fullName: "",
         email: "",
-        whatsappNumber: "",
-        city: "",
-        instagramProfile: "",
+        contactNumber: "",
+        location: "",
+        instagramId: "",
         iphoneModel: "",
-        referralSource: "",
-        motivation: ""
+        recentWorks: "",
       });
-    } catch (error) {
-      console.error('Error submitting application:', error);
-      toast.error("Failed to submit application. Please try again.");
+    } catch (error: any) {
+      console.error('Error:', error);
+      toast.error("Failed to submit application", {
+        description: error.message || "Please try again later.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -757,8 +767,8 @@ export default function Partner() {
                     <input
                       type="tel"
                       required
-                      value={formData.whatsappNumber}
-                      onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
+                      value={formData.contactNumber}
+                      onChange={(e) => setFormData({ ...formData, contactNumber: e.target.value })}
                       className="w-full px-4 py-3 pl-12 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/20"
                       placeholder="Your WhatsApp number"
                     />
@@ -772,8 +782,8 @@ export default function Partner() {
                     <input
                       type="text"
                       required
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                       className="w-full px-4 py-3 pl-12 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/20"
                       placeholder="Your city and area"
                     />
@@ -787,8 +797,8 @@ export default function Partner() {
                     <input
                       type="text"
                       required
-                      value={formData.instagramProfile}
-                      onChange={(e) => setFormData({ ...formData, instagramProfile: e.target.value })}
+                      value={formData.instagramId}
+                      onChange={(e) => setFormData({ ...formData, instagramId: e.target.value })}
                       className="w-full px-4 py-3 pl-12 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/20"
                       placeholder="Link to your Instagram profile or reel samples"
                     />
@@ -812,27 +822,12 @@ export default function Partner() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">How did you hear about Flashoot?</label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      required
-                      value={formData.referralSource}
-                      onChange={(e) => setFormData({ ...formData, referralSource: e.target.value })}
-                      className="w-full px-4 py-3 pl-12 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/20"
-                      placeholder="IG / Friend / Ad / Shoot"
-                    />
-                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  </div>
-                </div>
-
-                <div>
                   <label className="block text-sm font-medium mb-2">Why do you want to join?</label>
                   <div className="relative">
                     <textarea
                       required
-                      value={formData.motivation}
-                      onChange={(e) => setFormData({ ...formData, motivation: e.target.value })}
+                      value={formData.recentWorks}
+                      onChange={(e) => setFormData({ ...formData, recentWorks: e.target.value })}
                       className="w-full px-4 py-3 pl-12 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 focus:border-primary/30 transition-all focus:ring-2 focus:ring-primary/20 h-32"
                       placeholder="Tell us in 1-2 lines why you want to join Flashoot"
                     />

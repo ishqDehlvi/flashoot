@@ -227,13 +227,20 @@ const EnquiryForm = () => {
     
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/flashoot/send-enquiry-email`,
+        'https://api.cohesyn.in/api/email/inquiry-form',
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            fullName: formData.name,
+            phoneNumber: formData.phone,
+            email: formData.email,
+            occasion: formData.occasion,
+            city: formData.city,
+            date: formData.date
+          }),
         },
       );
 

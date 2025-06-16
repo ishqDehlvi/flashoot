@@ -15,8 +15,8 @@ export default async function handler(
     const { formData, applicationId } = req.body;
 
     const { data, error } = await resend.emails.send({
-      from: 'Flashoot <onboarding@flashoot.com>',
-      to: 'onboarding@flashoot.com',
+      from: 'Flashoot <hello@flashoot.com>',
+      to: 'aman@flashoot.com',
       subject: `New Partner Application: ${formData.fullName}`,
       html: `
         <h2>New Partner Application</h2>
